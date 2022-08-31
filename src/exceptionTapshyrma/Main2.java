@@ -64,9 +64,6 @@ public class Main2 {
     }
 
     public static int writeYear(int i){
-
-
-
         i++;
         while(true){
             try{
