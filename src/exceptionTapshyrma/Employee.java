@@ -1,4 +1,4 @@
-package test;
+package exceptionTapshyrma;
 
 public class Employee {
     private String firstName;
