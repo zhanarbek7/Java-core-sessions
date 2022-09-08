@@ -1,4 +1,6 @@
-package test.comparable;
+package setEqualsHash;
+
+import setEqualsHash.tapshyrma1.Student;
 
 import java.util.Comparator;
 
