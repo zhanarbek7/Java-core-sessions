@@ -1,17 +1,21 @@
 package streams;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee("Aman", 23, 23000, "USA"));
-        employeeList.add(new Employee("Dev", 52, 23000, "USA"));
-        employeeList.add(new Employee("Ben", 63, 25000, "China"));
+        employeeList.add(new Employee("Aman", 23, 23000, "Tajikistan"));
+        employeeList.add(new Employee("Dev", 52, 23000, "India"));
+        employeeList.add(new Employee("Ben", 63, 25000, "India"));
         employeeList.add(new Employee("Zade", 34, 56000, "India"));
         employeeList.add(new Employee("Steve", 43, 67000, "India"));
-        employeeList.add(new Employee("Sam", 53, 54000, "China"));
+        employeeList.add(new Employee("Sam", 53, 54000, "India"));
 
         List<Integer> integerList = new ArrayList<>();
         integerList.add(1);
@@ -28,43 +32,56 @@ public class Main {
         stringList.add("Iyan");
         stringList.add("Peter");
 
-        {
-            System.out.println("FILTERING");
 
-            System.out.println("People older than 30");
-            employeeList.stream().filter(employee -> employee.getAge() > 30).forEach(System.out::println);
-        }
 
-        {
-            System.out.println("\nSLICING");
+        employeeList.stream().filter(x-> x.getAge() > 30).forEach(System.out::println);
+        integerList.stream().distinct().forEach(System.out::println);
+        integerList.stream().distinct().limit(3).forEach(System.out::println);
+        integerList.stream().skip(3).forEach(System.out::println);
 
-            System.out.print("Distinct values in integer list:  ");
-            integerList.stream().distinct().forEach((x) -> System.out.print(x + " "));
-            System.out.println();
+        stringList.stream().map(String::toUpperCase).forEach(System.out::println);
+        stringList.stream().map(String::length).forEach(System.out::println);
 
-            System.out.print("Limiting the returned stream to return only upto n values:  ");
-            integerList.stream().distinct().limit(3).forEach(x -> System.out.print(x + " "));
-            System.out.println();
+        // Number of canadian people
+        long canadian1 = employeeList.stream().filter(x->x.getCountry().equals("Canada")).count() ;
+        System.out.println(canadian1);
 
-            System.out.print("Skipping the first n (here its 2 )values:  ");
-            integerList.stream().distinct().skip(2).forEach(x -> System.out.print(x + " "));
-        }
+        // Is there any canadian person?
+        boolean canadian2 = employeeList.stream().anyMatch(x->x.getCountry().equals("Canada"));
+        System.out.println(canadian2);
 
-        {
-            System.out.println("\n\nMAPPING");
+        // Find first Indian if exists
+        Optional<Employee> optionalEmployee =
+                employeeList.stream().filter(x->x.getCountry().equals("India")).findFirst();
 
-            System.out.print("To print names from the list in upperCase: ");
-            stringList.stream().map(String::toUpperCase).forEach(x -> System.out.print(x + ", "));
+        //Optional methods
+        System.out.println(optionalEmployee.isEmpty());
+        System.out.println(optionalEmployee.isPresent());
 
-            System.out.print("\nTo get length of words: ");
-            stringList.stream().mapToInt(String::length).forEach(x -> System.out.print(x + " "));
-        }
 
-        {
-            System.out.println("\n\nMATCHING");
-            System.out.println("To check if there is any person residing in a particular country:");
-            boolean canadian = employeeList.stream().anyMatch(x->x.getCountry().equals("Canada"));
-        }
+        // Get total salary of Employees
+        Optional<Integer> totalSalary = employeeList.stream().map(Employee::getSalary).reduce((a, b)->a+b);
+        Double totalSalary2 = employeeList.stream().mapToDouble(Employee::getSalary).sum();
+        System.out.println(totalSalary2);
 
+
+        // Get Employee with the highest salary
+        Optional<Employee> optionalEmployee2 = employeeList.stream().max((o1, o2) -> o1.getSalary()-o2.getSalary());
+        optionalEmployee.ifPresent(System.out::println);
+
+        // Create a List<Integer> from List<Employee>
+        List<Integer> integersOfEmployee = employeeList.stream().map(Employee::getSalary).toList();
+        System.out.println(integersOfEmployee);
+
+        // Create a map from List<Employee>
+        Map<String, Integer> employeesInfo = employeeList.stream().collect(Collectors.toMap(Employee::getName, Employee::getAge));
+        System.out.println(employeesInfo);
+
+
+        //Get number of employees older than 30
+        long count = employeeList.stream().filter(emp -> emp.getAge() > 30).count();
+        System.out.println(count);
     }
+
+
 }
