@@ -1,4 +1,4 @@
-package streams;
+package sessions.streams;
 
 public class Employee {
     private String name;

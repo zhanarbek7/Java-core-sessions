@@ -1,4 +1,4 @@
-package streams.tapshyrma1;
+package sessions.streams.tapshyrma1;
 
 import java.util.ArrayList;
 import java.util.Random;

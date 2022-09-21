@@ -1,4 +1,4 @@
-package streams.tapshyrma2;
+package sessions.streams.tapshyrma2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
