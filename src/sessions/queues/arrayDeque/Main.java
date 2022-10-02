@@ -1,6 +1,10 @@
 package sessions.queues.arrayDeque;
 
+import javax.print.DocFlavor;
 import java.util.ArrayDeque;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +19,6 @@ public class Main {
         arrayDeque.add("Beckham");
 
     }
-
     // ArrayDeque()
     // add(), addLast(), offer() жана offerLast() аягына кошот
     // push(), offerFirst(), addFirst() башына кошот
@@ -30,3 +33,4 @@ public class Main {
     // pop() биринчи элементти кайтарат жана очурот, пустой болсо exception кайтарат
 
 }
+
